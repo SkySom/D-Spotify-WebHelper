@@ -1,0 +1,5 @@
+module spotifywebhelper
+
+class SpotifyWebHelper {
+  
+}
