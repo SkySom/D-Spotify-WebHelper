@@ -5,6 +5,7 @@
 	"authors": ["Skylar"],
 	"homepage": "https://github.com/SkySom/D-spotify-local-http-api",
 	"license": "MIT",
+	"targetType": "library",
 	"dependencies": {
 	}
 }
