@@ -1,8 +1,10 @@
 {
 	"name": "d-spotify-local-http-api",
-	"description": "A minimal D application.",
+	"description": "A library for interacting with Spotify's Webhelper",
 	"copyright": "Copyright © 2014, Skylar",
 	"authors": ["Skylar"],
+	"homepage": "https://github.com/SkySom/D-spotify-local-http-api",
+	"license": "MIT",
 	"dependencies": {
 	}
 }
