@@ -11,6 +11,8 @@ import std.stdio;
 import std.string;
 import std.net.curl;
 
+import processutils;
+
 class SpotifyWebHelper {
 
 }
@@ -37,5 +39,13 @@ class HelperFunctions {
 
   string generateRandomLocalHostName() {
     return format("%s%s", generateRandomString(10), ".spotilocal.com");
+  }
+
+  bool isSpotifyWebHelperRunning() {
+    auto processUtils = new ProcessUtils();
+    if(processUtils.isProcessRunning("spotifywebhelper.exe")) {
+      return true;
+    }
+    return false;
   }
 }
