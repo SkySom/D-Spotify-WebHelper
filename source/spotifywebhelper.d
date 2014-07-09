@@ -21,6 +21,12 @@ class SpotifyWebHelper {
 }
 
 class HelperFunctions {
+  Header[] getCommonHeaders() {
+    Header[] headers = new Header[1];
+    headers[0] = new Header("Origin", "https://open.spotify.com");
+    return headers;
+  }
+
   string getWindowsSpotifyWebHelperPath() {
     if(!environment.get("USERPROFILE")) {
       return null;
@@ -55,15 +61,22 @@ class HelperFunctions {
     }
   }
 
-  string generateSpotifyUrl(string url) {
-    return format("https://%s:%d%s", generateRandomLocalHostName(),
-      DEFAULT_PORT, url);
+  string generateSpotifyUrl(string path) {
+    return format("https://%s:%d%s", generateRandomLocalHostName(), DEFAULT_PORT, path);
   }
 
   string getOauthToken() {
-    auto json = getJson("http://open.spotify.com/token");
-    string token = json["t"].toString();
-    return token;
+    JSONValue oauthTokenJson = getJson("http://open.spotify.com/token");
+    string oauthToken = oauthTokenJson["t"].toString();
+    return oauthToken;
+  }
+
+  string getCsrfToken() {
+    string url = generateSpotifyUrl("/simplecsrf/token.json");
+    JSONValue csrfTokenJson = getJson(url, getCommonHeaders());
+    writeln(csrfTokenJson.toPrettyString());
+    string csrfToken = csrfTokenJson["token"].toString();
+    return csrfToken;
   }
 
   bool isWindows() {
