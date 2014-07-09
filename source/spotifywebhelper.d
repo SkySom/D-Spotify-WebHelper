@@ -48,4 +48,10 @@ class HelperFunctions {
     }
     return false;
   }
+
+  string getOauthToken() {
+    auto json = getJson("http://open.spotify.com/token");
+    string token = json["t"].toString();
+    return token;
+  }
 }
