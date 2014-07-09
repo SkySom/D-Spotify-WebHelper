@@ -49,6 +49,15 @@ class HelperFunctions {
     return false;
   }
 
+  void launchSpotifyWebHelperIfNeeded() {
+    if(isWindows() && !isSpotifyWebHelperRunning()) {
+      string exePath = getWindowsSpotifyWebHelperPath();
+      if(exePath != null) {
+        spawnProcess(exePath);
+      }
+    }
+  }
+
   string getOauthToken() {
     auto json = getJson("http://open.spotify.com/token");
     string token = json["t"].toString();
