@@ -1,5 +1,5 @@
 {
-	"name": "d-spotify-local-http-api",
+	"name": "D-Spotify-WebHelper",
 	"description": "A library for interacting with Spotify's Webhelper",
 	"copyright": "Copyright © 2014, Skylar",
 	"authors": ["Skylar"],

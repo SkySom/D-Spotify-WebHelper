@@ -21,7 +21,6 @@ class ProcessUtils {
       if(icmp(process, name)) {
         return true;
       }
-      writeln(process);
     }
     return false;
   }
