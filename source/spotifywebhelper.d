@@ -13,6 +13,8 @@ import std.net.curl;
 
 import processutils;
 
+const int DEFAULT_PORT = 4370;
+
 class SpotifyWebHelper {
 
 }
@@ -56,6 +58,11 @@ class HelperFunctions {
         spawnProcess(exePath);
       }
     }
+  }
+
+  string generateSpotifyUrl(string url) {
+    return format("https://%s:%d%s", generateRandomLocalHostName(),
+      DEFAULT_PORT, url);
   }
 
   string getOauthToken() {
