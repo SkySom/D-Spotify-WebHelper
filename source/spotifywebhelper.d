@@ -12,6 +12,7 @@ import std.string;
 import std.net.curl;
 
 import processutils;
+import webutils;
 
 const int DEFAULT_PORT = 4370;
 
@@ -20,12 +21,6 @@ class SpotifyWebHelper {
 }
 
 class HelperFunctions {
-  JSONValue getJson(string url) {
-    auto contentString = get(url);
-    auto contentJson = parseJSON(contentString);
-    return contentJson;
-  }
-
   string getWindowsSpotifyWebHelperPath() {
     if(!environment.get("USERPROFILE")) {
       return null;
