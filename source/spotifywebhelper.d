@@ -54,4 +54,9 @@ class HelperFunctions {
     string token = json["t"].toString();
     return token;
   }
+
+  bool isWindows() {
+    return std.system.os == std.system.os.win32 ||
+      std.system.os == std.system.os.win64;
+  }
 }
