@@ -25,13 +25,25 @@ class SpotifyWebHelper {
   this() {
     helper = new HelperFunctions();
     oauthToken = helper.getOauthToken();
-    csrfToken = helper.getCsrfToken();
+    //csrfToken = helper.getCsrfToken();
   }
 
   this(HelperFunctions helperFunctions) {
     helper = helperFunctions;
     oauthToken = helper.getOauthToken();
-    csrfToken = helper.getCsrfToken();
+    //csrfToken = helper.getCsrfToken();
+  }
+
+  JSONValue getVersion() {
+    string url = helper.generateSpotifyUrl("/service/version.json");
+
+    Header[] headers = new Header[1];
+    headers[0] = new Header("Origin", "https://open.spotify.com");
+
+    Param[] params = new Param[1];
+    params[0] = new Param("service","remote");
+
+    return getJson(url, headers, params);
   }
 }
 
