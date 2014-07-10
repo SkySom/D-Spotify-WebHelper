@@ -6,6 +6,7 @@
 	"homepage": "https://github.com/SkySom/D-spotify-local-http-api",
 	"license": "MIT",
 	"targetType": "library",
+	"targetPath": "lib",
 	"dependencies": {
 	}
 }
