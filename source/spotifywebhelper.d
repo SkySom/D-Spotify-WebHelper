@@ -25,25 +25,21 @@ class SpotifyWebHelper {
   this() {
     helper = new HelperFunctions();
     oauthToken = helper.getOauthToken();
-    //csrfToken = helper.getCsrfToken();
+    csrfToken = helper.getCsrfToken();
   }
 
   this(HelperFunctions helperFunctions) {
     helper = helperFunctions;
     oauthToken = helper.getOauthToken();
-    //csrfToken = helper.getCsrfToken();
+    csrfToken = helper.getCsrfToken();
   }
 
   JSONValue getVersion() {
     string url = helper.generateSpotifyUrl("/service/version.json");
-
-    Header[] headers = new Header[1];
-    headers[0] = new Header("Origin", "https://open.spotify.com");
-
     Param[] params = new Param[1];
     params[0] = new Param("service","remote");
 
-    return getJson(url, headers, params);
+    return getJson(url, getCommonHeaders(), params);
   }
 }
 
@@ -55,15 +51,8 @@ class HelperFunctions {
   }
 
   Header[] getCommonHeaders() {
-    Header[] headers = new Header[8];
+    Header[] headers = new Header[1];
     headers[0] = new Header("Origin", "https://embed.spotify.com");
-    headers[1] = new Header("Referer", "https://embed.spotify.com/?uri=spotify:track:spotify:track:51pQ7vY7WXzxskwloaeqyj");
-    headers[2] = new Header("Accept", "*/*");
-    headers[3] = new Header("Accept-Encoding", "gzip,deflate,sdch");
-    headers[4] = new Header("Accept-Language", "en-US,en;q=0.8");
-    headers[5] = new Header("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36");
-    headers[6] = new Header("Connection", "Keep-Alive");
-    headers[7] = new Header("Host", host);
     return headers;
   }
 
@@ -113,13 +102,7 @@ class HelperFunctions {
 
   string getCsrfToken() {
     string url = generateSpotifyUrl("/simplecsrf/token.json");
-
-    Param[] params = new Param[2];
-    params[0] = new Param("&ref", "http%3A%2F%2Fd5ecgvacntsb3.cloudfront.net%2Fwidgets%2Fmusic-links%2Funit%2Fartist-playbutton%2Findex.html%3Fartist%3DLed%2BZeppelin");
-    params[1] = new Param("cors", "");
-
     JSONValue csrfTokenJson = getJson(url, getCommonHeaders(), params);
-    writeln(csrfTokenJson.toPrettyString());
     string csrfToken = csrfTokenJson["token"].toString();
     return csrfToken;
   }
