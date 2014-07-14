@@ -7,30 +7,14 @@ import std.json;
 import std.stdio;
 import std.net.curl;
 
-JSONValue getJson(string url) {
-  auto contentString = get(url);
-  auto contentJson = parseJSON(contentString);
-  return contentJson;
-}
-
-JSONValue getJson(string url, Header[] headers) {
-  Param[1] params = new Param("", "");
-  return getJson(url, headers, params);
-}
-
-JSONValue getJson(string url, Param[] params) {
-  Header[1] headers = new Header("", "");
-  return getJson(url, headers, params);
-}
-
-JSONValue getJson(string url, Header[] headers, Param[] params) {
+JSONValue getJson(string url, Header[] headers = new Header[0], Param[] params = new Param[0]) {
   auto returned = appender!string();
 
   auto queryUrl = appender!string();
   queryUrl.put(url);
   // for now this assumes that the program doesn't create two
   // different param objects with "" for both name and value.
-  if(params.length > 1 || (params.length == 1 && params[0].name != "" && params[0].value != "")) {
+  if(params.length > 0) {
     queryUrl.put("?");
     for(int x = 0; x < params.length; x++) {
       if(params[x].name == "" && params[0].value == "") {
@@ -49,9 +33,8 @@ JSONValue getJson(string url, Header[] headers, Param[] params) {
 
   writeln(queryUrl.data);
   auto http = HTTP();
-  http.method = HTTP.Method.get;
 
-  if(headers.length > 1 || (headers.length == 1 && headers[0].name != "" && headers[0].value != "" )) {
+  if(headers.length > 0) {
     http.clearRequestHeaders();
     foreach(Header head; headers) {
       if(head.name != "" && head.value != "") {
