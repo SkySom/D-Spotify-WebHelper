@@ -39,7 +39,7 @@ class SpotifyWebHelper {
     Param[] params = new Param[1];
     params[0] = new Param("service","remote");
 
-    return getJson(url, getCommonHeaders(), params);
+    return getJson(url, helper.getCommonHeaders(), params);
   }
 }
 
@@ -102,7 +102,7 @@ class HelperFunctions {
 
   string getCsrfToken() {
     string url = generateSpotifyUrl("/simplecsrf/token.json");
-    JSONValue csrfTokenJson = getJson(url, getCommonHeaders(), params);
+    JSONValue csrfTokenJson = getJson(url, getCommonHeaders());
     string csrfToken = csrfTokenJson["token"].toString();
     return csrfToken;
   }
