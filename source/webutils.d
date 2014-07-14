@@ -48,7 +48,7 @@ JSONValue getJson(string url, Header[] headers, Param[] params) {
   }
 
   writeln(queryUrl.data);
-  auto http = HTTP(queryUrl.data);
+  auto http = HTTP();
   http.method = HTTP.Method.get;
 
   if(headers.length > 1 || (headers.length == 1 && headers[0].name != "" && headers[0].value != "" )) {
@@ -59,15 +59,9 @@ JSONValue getJson(string url, Header[] headers, Param[] params) {
       }
     }
   }
-
-  http.onReceive = (ubyte[] data) {
-    foreach(ubyte u; data) {
-      returned.put(to!char(u));
-    }
-    return data.length;
-  };
-  http.perform();
-  JSONValue json = parseJSON(returned.data);
+  string finalUrl = queryUrl.data;
+  auto contentString = get(finalUrl, http);
+  JSONValue json = parseJSON(contentString);
   return json;
 }
 
