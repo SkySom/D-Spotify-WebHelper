@@ -64,6 +64,14 @@ class SpotifyWebHelper {
         pause(false);
     }
 
+    void play(string spotifyUri) {
+        Param[] params = new Param[2];
+        params[0] = new Param("uri", spotifyUri);
+        params[1] = new Param("context", spotifyUri);
+
+        spotifyJsonRequest("/remote/play.json", params);
+    }
+
     Json spotifyJsonRequest(string spotifyRelativeUrl, Param[] params) {
         Param[] additionalParams = new Param[params.length + 2];
 
