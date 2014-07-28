@@ -51,8 +51,10 @@ class HelperFunctions {
   }
 
   Header[] getCommonHeaders() {
-    Header[] headers = new Header[1];
-    headers[0] = new Header("Origin", "https://embed.spotify.com");
+    Header[] headers = new Header[3];
+    headers[0] = new Header("Origin", "https://open.spotify.com");
+    headers[1] = new Header("connection", "keep-alive");
+    headers[2] = new Header("host", "localhost:80");
     return headers;
   }
 

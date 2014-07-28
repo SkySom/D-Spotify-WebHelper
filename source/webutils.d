@@ -33,9 +33,10 @@ JSONValue getJson(string url, Header[] headers = new Header[0], Param[] params =
 
   writeln(queryUrl.data);
   auto http = HTTP();
-
+  http.clearRequestHeaders();
+  http.setUserAgent("");
+  http.addRequestHeader("accept", "");
   if(headers.length > 0) {
-    http.clearRequestHeaders();
     foreach(Header head; headers) {
       if(head.name != "" && head.value != "") {
         http.addRequestHeader(head.name, head.value);
