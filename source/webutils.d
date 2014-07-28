@@ -34,20 +34,6 @@ Json getJson(string url, Header[] headers = new Header[0], Param[] params = new 
         }
     }
 
-    writeln(queryUrl.data);
-    /*auto http = HTTP();
-    http.clearRequestHeaders();
-    http.setUserAgent("");
-    http.addRequestHeader("accept", "");
-    if(headers.length > 0) {
-        foreach(Header head; headers) {
-            if(head.name != "" && head.value != "") {
-                http.addRequestHeader(head.name, head.value);
-            }
-        }
-    }
-    string finalUrl = queryUrl.data;
-    auto contentString = get(finalUrl, http); */
     Json json;
     try {
         requestHTTP(queryUrl.data,
@@ -61,13 +47,11 @@ Json getJson(string url, Header[] headers = new Header[0], Param[] params = new 
                 }
             },
             (scope res){
-                writeln(res.statusCode);
                 json = res.readJson();
             }
         );
     } catch(Exception exception) {
         writeln(exception.toString());
-        writeln("Shit happened yo");
     }
 
     return json;

@@ -107,7 +107,7 @@ class HelperFunctions {
     string getCsrfToken() {
         string url = generateSpotifyUrl("/simplecsrf/token.json");
         Json csrfTokenJson = getJson(url, getCommonHeaders());
-        string csrfToken = csrfTokenJson["token"].toString();
+        string csrfToken = csrfTokenJson["token"].get!string;
         return csrfToken;
     }
 
