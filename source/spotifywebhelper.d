@@ -11,6 +11,8 @@ import std.stdio;
 import std.string;
 import std.net.curl;
 
+import vibe.data.json;
+
 import processutils;
 import webutils;
 
@@ -34,7 +36,7 @@ class SpotifyWebHelper {
         csrfToken = helper.getCsrfToken();
     }
 
-    JSONValue getVersion() {
+    Json getVersion() {
         string url = helper.generateSpotifyUrl("/service/version.json");
         Param[] params = new Param[1];
         params[0] = new Param("service","remote");
@@ -97,14 +99,14 @@ class HelperFunctions {
     }
 
     string getOauthToken() {
-        JSONValue oauthTokenJson = getJson("http://open.spotify.com/token");
-        string oauthToken = oauthTokenJson["t"].toString();
+        Json oauthTokenJson = getJson("http://open.spotify.com/token");
+        string oauthToken = oauthTokenJson["t"].get!string;
         return oauthToken;
     }
 
     string getCsrfToken() {
         string url = generateSpotifyUrl("/simplecsrf/token.json");
-        JSONValue csrfTokenJson = getJson(url, getCommonHeaders());
+        Json csrfTokenJson = getJson(url, getCommonHeaders());
         string csrfToken = csrfTokenJson["token"].toString();
         return csrfToken;
     }

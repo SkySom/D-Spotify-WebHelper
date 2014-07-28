@@ -3,11 +3,14 @@ module webutils;
 import std.array;
 import std.conv;
 import std.encoding;
-import std.json;
 import std.stdio;
 import std.net.curl;
 
-JSONValue getJson(string url, Header[] headers = new Header[0], Param[] params = new Param[0]) {
+import vibe.http.client;
+import vibe.data.json;
+
+
+Json getJson(string url, Header[] headers = new Header[0], Param[] params = new Param[0]) {
     auto returned = appender!string();
 
     auto queryUrl = appender!string();
@@ -32,7 +35,7 @@ JSONValue getJson(string url, Header[] headers = new Header[0], Param[] params =
     }
 
     writeln(queryUrl.data);
-    auto http = HTTP();
+    /*auto http = HTTP();
     http.clearRequestHeaders();
     http.setUserAgent("");
     http.addRequestHeader("accept", "");
@@ -44,8 +47,29 @@ JSONValue getJson(string url, Header[] headers = new Header[0], Param[] params =
         }
     }
     string finalUrl = queryUrl.data;
-    auto contentString = get(finalUrl, http);
-    JSONValue json = parseJSON(contentString);
+    auto contentString = get(finalUrl, http); */
+    Json json;
+    try {
+        requestHTTP(queryUrl.data,
+            (scope req){
+                if(headers.length > 0) {
+                    foreach(Header head; headers) {
+                        if(head.name != "" && head.value != "") {
+                            req.headers[head.name] = head.value;
+                        }
+                    }
+                }
+            },
+            (scope res){
+                writeln(res.statusCode);
+                json = res.readJson();
+            }
+        );
+    } catch(Exception exception) {
+        writeln(exception.toString());
+        writeln("Shit happened yo");
+    }
+
     return json;
 }
 

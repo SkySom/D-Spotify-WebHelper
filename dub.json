@@ -8,5 +8,7 @@
 	"targetType": "library",
 	"targetPath": "lib",
 	"dependencies": {
-	}
+		"vibe-d" : ">=0.7.21-alpha.1"
+	},
+	"versions": ["VibeCustomMain"]
 }
