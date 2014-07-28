@@ -54,6 +54,16 @@ class SpotifyWebHelper {
         return spotifyJsonRequest("/remote/status.json", params);
     }
 
+    void pause(bool pause = true) {
+        Param[] params = new Param[1];
+        params[0] = new Param("pause", to!string(pause));
+        spotifyJsonRequest("/remote/pause.json", params);
+    }
+
+    void unpause() {
+        pause(false);
+    }
+
     Json spotifyJsonRequest(string spotifyRelativeUrl, Param[] params) {
         Param[] additionalParams = new Param[params.length + 2];
 
