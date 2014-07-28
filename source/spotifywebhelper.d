@@ -1,8 +1,8 @@
 module spotifywebhelper;
 
 import std.algorithm;
+import std.array;
 import std.ascii;
-import std.json;
 import std.path;
 import std.process;
 import std.random;
@@ -17,6 +17,8 @@ import processutils;
 import webutils;
 
 const int DEFAULT_PORT = 4370;
+const string DEFAULT_RETURN_ON = "login,logout,play,pause,error,ap";
+const int DEFAULT_RETURN_AFTER = 1;
 
 class SpotifyWebHelper {
     string oauthToken;
@@ -42,6 +44,28 @@ class SpotifyWebHelper {
         params[0] = new Param("service","remote");
 
         return getJson(url, helper.getCommonHeaders(), params);
+    }
+
+    Json getStatus() {
+        Param[] params = new Param[2];
+        params[0] = new Param("returnafter", to!string(DEFAULT_RETURN_AFTER));
+        params[1] = new Param("returnon", DEFAULT_RETURN_ON);
+
+        return spotifyJsonRequest("/remote/status.json", params);
+    }
+
+    Json spotifyJsonRequest(string spotifyRelativeUrl, Param[] params) {
+        Param[] additionalParams = new Param[params.length + 2];
+
+        for(int x = 0; x < params.length; x++) {
+            additionalParams[x] = new Param(params[x].name, params[x].value);
+        }
+
+        additionalParams[params.length] = new Param("oauth", oauthToken);
+        additionalParams[params.length + 1] = new Param("csrf", csrfToken);
+
+        string url = helper.generateSpotifyUrl(spotifyRelativeUrl);
+        return getJson(url, helper.getCommonHeaders(), additionalParams);
     }
 }
 

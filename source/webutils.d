@@ -11,16 +11,15 @@ import vibe.data.json;
 
 
 Json getJson(string url, Header[] headers = new Header[0], Param[] params = new Param[0]) {
-    auto returned = appender!string();
-
     auto queryUrl = appender!string();
     queryUrl.put(url);
+
     // for now this assumes that the program doesn't create two
     // different param objects with "" for both name and value.
     if(params.length > 0) {
         queryUrl.put("?");
         for(int x = 0; x < params.length; x++) {
-            if(params[x].name == "" && params[0].value == "") {
+            if(params[x].name == "" && params[x].value == "") {
                 //...Need a better way to write this so if it is both "", then no. It was grabbing it if either were.
             }
             else {
