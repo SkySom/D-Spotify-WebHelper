@@ -1,4 +1,4 @@
-module processutils;
+module dspotifywebhelper.processutils;
 
 import std.process;
 import std.stdio;

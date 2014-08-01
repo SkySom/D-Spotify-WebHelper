@@ -1,4 +1,4 @@
-module spotifywebhelper;
+module dspotifywebhelper.spotifywebhelper;
 
 import std.algorithm;
 import std.array;
@@ -13,8 +13,8 @@ import std.net.curl;
 
 import vibe.data.json;
 
-import processutils;
-import webutils;
+import dspotifywebhelper.processutils;
+import dspotifywebhelper.webutils;
 
 const int DEFAULT_PORT = 4370;
 const string DEFAULT_RETURN_ON = "login,logout,play,pause,error,ap";

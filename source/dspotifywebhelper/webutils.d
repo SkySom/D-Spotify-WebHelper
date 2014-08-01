@@ -1,4 +1,4 @@
-module webutils;
+module dspotifywebhelper.webutils;
 
 import std.array;
 import std.conv;
