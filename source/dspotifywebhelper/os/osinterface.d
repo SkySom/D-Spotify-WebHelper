@@ -1,7 +1,7 @@
-module os.osinterface;
+module dspotifywebhelper.os.osinterface;
 
 interface os {
     string getSpotifyWebHelperPath();
     bool isSpotifyWebHelperRunning();
-    void launchSpotifyWebHelperIfNeeded();
+    void launchSpotifyWebHelper();
 }

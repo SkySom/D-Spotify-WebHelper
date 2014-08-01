@@ -4,7 +4,6 @@ import std.algorithm;
 import std.array;
 import std.ascii;
 import std.path;
-import std.process;
 import std.random;
 import std.range;
 import std.stdio;
@@ -15,6 +14,7 @@ import vibe.data.json;
 
 import dspotifywebhelper.processutils;
 import dspotifywebhelper.webutils;
+import dspotifywebhelper.os.windows;
 
 const int DEFAULT_PORT = 4370;
 const string DEFAULT_RETURN_ON = "login,logout,play,pause,error,ap";
@@ -89,9 +89,11 @@ class SpotifyWebHelper {
 
 class HelperFunctions {
     string host;
-
+    Windows os;
     this() {
         host = generateRandomLocalHostName();
+        os = new Windows();
+        os.launchSpotifyWebHelper();
     }
 
     Header[] getCommonHeaders() {
@@ -102,38 +104,12 @@ class HelperFunctions {
         return headers;
     }
 
-    string getWindowsSpotifyWebHelperPath() {
-        if(!environment.get("USERPROFILE")) {
-            return null;
-        }
-
-        return buildPath(environment.get("USERPROFILE"),
-            "AppData\\Roaming\\Spotify\\Data\\SpotifyWebHelper.exe");
-    }
-
     string generateRandomString(int length) {
         return iota(length).map!(_ => letters[uniform(0, $)]).array.toLower();
     }
 
     string generateRandomLocalHostName() {
         return format("%s%s", generateRandomString(10), ".spotilocal.com");
-    }
-
-    bool isSpotifyWebHelperRunning() {
-        auto processUtils = new ProcessUtils();
-        if(processUtils.isProcessRunning("spotifywebhelper.exe")) {
-            return true;
-        }
-        return false;
-    }
-
-    void launchSpotifyWebHelperIfNeeded() {
-        if(isWindows() && !isSpotifyWebHelperRunning()) {
-            string exePath = getWindowsSpotifyWebHelperPath();
-            if(exePath != null) {
-                spawnProcess(exePath);
-            }
-        }
     }
 
     string generateSpotifyUrl(string path) {
@@ -151,10 +127,5 @@ class HelperFunctions {
         Json csrfTokenJson = getJson(url, getCommonHeaders());
         string csrfToken = csrfTokenJson["token"].get!string;
         return csrfToken;
-    }
-
-    bool isWindows() {
-        return std.system.os == std.system.os.win32 ||
-            std.system.os == std.system.os.win64;
     }
 }
